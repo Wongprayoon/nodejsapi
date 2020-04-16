@@ -2,15 +2,13 @@ var router = require("express").Router();
 var db = require("../database/user");
 
 router.get("/", (req, res) => {
-    let username = '';
-    let password = '';
-    if (req.query.username) 
-        username = ` and username = '${req.query.username}'`
-    if (req.query.password)
-        password = ` and password = '${req.query.password}'`
-    db.all(`select * from user where id > 0${username}${password}`, (err, row) => {
+    let username = ` and username = '${req.query.username}'`
+    let password = ` and password = '${req.query.password}'`
+    let stmt = `select * from user where id > 0${username}${password}`
+    db.all(stmt, (err, row) => {
         if (row) {
             console.log('GET user \'/\' : ' + row.length);
+            console.log(stmt, row)
             res.json(row);
         } else {
             console.log('GET user \'/\' : ');
