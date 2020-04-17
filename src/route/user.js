@@ -19,7 +19,22 @@ router.get("/", (req, res) => {
         }
     });
 });
-
+router.get("/all", (req, res) => {
+    let stmt = `select * from user where id > 0`
+    db.all(stmt, (err, row) => {
+        if (row) {
+            console.log('GET user \'/\' : ' + row.length);
+            console.log(stmt, row)
+            res.json(row);
+        } else {
+            console.log('GET user \'/\' : ');
+            console.log(err);
+            res.write(err);
+            res.status(500);
+            res.end();
+        }
+    });
+});
 router.post("/", (req, res) => {
     let name = req.body.name;
     let username = req.body.username;
